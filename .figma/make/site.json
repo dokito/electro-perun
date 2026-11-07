@@ -1,0 +1,11 @@
+{
+  "title": "ElectroPerun",
+  "description": "Offers bilingual service listings and enables customers to easily book time slots for electrical technician services online, enhancing convenience and accessibility.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
