@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://electro-perun.eu/sitemap.xml
