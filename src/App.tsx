@@ -25,7 +25,8 @@ const COMPANY = {
   phoneDisplay: "+359 87 6811280",
   phoneHref: "+359876811280",
   email: "electroperun@gmail.com",
-  whatsapp: "https://wa.me/359876811280?text=Hello%20ElectroPerun%2C%20I%20want%20to%20book%20an%20appointment.",
+  whatsapp:
+    "https://wa.me/359876811280?text=Hello%20ElectroPerun%2C%20I%20want%20to%20book%20an%20appointment.",
   telegram: "https://t.me/electroperun",
   viber: "viber://chat?number=%2B359876811280",
 };
@@ -396,11 +397,7 @@ export default function App() {
     ],
     priceRange: "€€",
     openingHours: ["Mo-Su 08:00-22:00"],
-    sameAs: [
-      COMPANY.whatsapp,
-      COMPANY.telegram,
-      COMPANY.viber,
-    ],
+    sameAs: [COMPANY.whatsapp, COMPANY.telegram, COMPANY.viber],
     image:
       "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=630&fit=crop&auto=format",
   };
@@ -408,18 +405,18 @@ export default function App() {
   useEffect(() => {
     const title =
       lang === "en"
-        ? "ElectroPerun | Electrician in Sofia, Bulgaria"
-        : "ElectroPerun София | Електро услуги в България";
+        ? "Electrical Services in Sofia | ElectroPerun"
+        : "Електро услуги в София | ElectroPerun";
 
     const description =
       lang === "en"
-        ? "Professional electrician in Sofia, Bulgaria. Electrical installation, repair, lighting, smart home and panel upgrades for residential and commercial properties."
-        : "Професионален електротехник в София, България. Електроинсталации, ремонт, осветление, смарт дом и смяна на табло за жилищни и търговски обекти.";
+        ? "ElectroPerun provides professional electrical services in Sofia, including electrical installation, repairs, lighting, panel upgrades, and smart home solutions for homes and businesses."
+        : "ElectroPerun предлага професионални електро услуги в София, включително електроинсталации, ремонт, осветление, смяна на табло и интелигентни решения за домове и бизнеси.";
 
     const keywords =
       lang === "en"
-        ? "ElectroPerun, electrician Sofia Bulgaria, electrical services Sofia, electrical installation Sofia, electrical repair Sofia, smart home Sofia, panel upgrade Sofia, electrician Bulgaria, electrical contractor Sofia"
-        : "ElectroPerun, електротехник София, електроуслуги София, електроинсталации София, ремонт на електричество София, смяна на табло София, smart home София, електротехник България";
+        ? "ElectroPerun, electrical services in Sofia, electrician Sofia, electrical installation Sofia, electrical repair Sofia, lighting installation Sofia, panel upgrade Sofia, smart home Sofia, electrical contractor Sofia"
+        : "ElectroPerun, електро услуги в София, електротехник София, електроинсталации София, ремонт на електричество София, осветление София, смяна на табло София, smart home София, електротехник България";
 
     document.title = title;
 
@@ -567,10 +564,12 @@ export default function App() {
             <div className="mb-14">
               <div className="w-12 h-1 bg-[#f5c518] mb-4" />
               <h2 className="font-display font-800 text-5xl text-white mb-3">
-                {t.services.title}
+                {lang === "en" ? "Electrical Services in Sofia" : "Електро услуги в София"}
               </h2>
-              <p className="text-[#8ba0c8] text-lg max-w-xl">
-                {t.services.subtitle}
+              <p className="text-[#8ba0c8] text-lg max-w-3xl">
+                {lang === "en"
+                  ? "ElectroPerun provides dependable electrical services in Sofia for homes, apartments, offices, shops, and commercial properties. From electrical installation and panel upgrades to smart home setup and repairs, we deliver safe, modern solutions tailored to your property."
+                  : "ElectroPerun предоставя надеждни електро услуги в София за домове, апартаменти, офиси, магазини и търговски обекти. От електроинсталации и смяна на табло до интелигентни решения и ремонт, предлагаме безопасни и модерни решения за вашия имот."}
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -590,6 +589,13 @@ export default function App() {
                   </p>
                 </div>
               ))}
+            </div>
+            <div className="mt-10 bg-[#0f1830] border border-[#162040] rounded-lg p-6">
+              <p className="text-[#8ba0c8] text-sm leading-relaxed">
+                {lang === "en"
+                  ? "Whether you need an electrician in Sofia for a small repair, full electrical installation, or a smart home upgrade, ElectroPerun is ready to help with clear communication, precise workmanship, and reliable service across the city."
+                  : "Независимо дали имате нужда от електротехник в София за малък ремонт, пълна електроинсталация или интелигентно обновяване, ElectroPerun е готов да помогне с ясна комуникация, прецизна работа и надеждно обслужване в целия град."}
+              </p>
             </div>
           </div>
         </section>
@@ -612,7 +618,9 @@ export default function App() {
                 <p className="text-[#8ba0c8] leading-relaxed mb-4">
                   {t.about.bio1}
                 </p>
-                <p className="text-[#8ba0cfe8] leading-relaxed">{t.about.bio2}</p>
+                <p className="text-[#8ba0cfe8] leading-relaxed">
+                  {t.about.bio2}
+                </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   {["EN 60364", "BDS IEC", "ПБЕЗЕЛ Certified", "ISO 9001"].map(
                     (badge) => (
