@@ -19,6 +19,17 @@ import type { UploadedFile } from "./lib/fileUpload";
 
 type Lang = "bg" | "en";
 
+const COMPANY = {
+  name: "ElectroPerun",
+  domain: "https://electro-perun.eu",
+  phoneDisplay: "+359 87 6811280",
+  phoneHref: "+359876811280",
+  email: "electroperun@gmail.com",
+  whatsapp: "https://wa.me/359876811280?text=Hello%20ElectroPerun%2C%20I%20want%20to%20book%20an%20appointment.",
+  telegram: "https://t.me/electroperun",
+  viber: "viber://chat?number=%2B359876811280",
+};
+
 const T = {
   en: {
     nav: {
@@ -362,11 +373,12 @@ export default function App() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Electrician",
-    name: "ElektroTehnik",
+    name: COMPANY.name,
     description:
       "Professional electrical installation, repair, lighting, panel upgrade and smart home services in Sofia, Bulgaria.",
-    url: "https://www.elektrotehnik.bg/",
-    telephone: "+359 88 000 0000",
+    url: COMPANY.domain,
+    telephone: COMPANY.phoneDisplay,
+    email: COMPANY.email,
     address: {
       "@type": "PostalAddress",
       streetAddress: "Sofia",
@@ -384,7 +396,11 @@ export default function App() {
     ],
     priceRange: "€€",
     openingHours: ["Mo-Su 08:00-22:00"],
-    sameAs: ["https://www.facebook.com/", "https://www.instagram.com/"],
+    sameAs: [
+      COMPANY.whatsapp,
+      COMPANY.telegram,
+      COMPANY.viber,
+    ],
     image:
       "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1200&h=630&fit=crop&auto=format",
   };
@@ -392,8 +408,8 @@ export default function App() {
   useEffect(() => {
     const title =
       lang === "en"
-        ? "ElektroTehnik | Electrician in Sofia, Bulgaria"
-        : "Електротехник София | Електро услуги в България";
+        ? "ElectroPerun | Electrician in Sofia, Bulgaria"
+        : "ElectroPerun София | Електро услуги в България";
 
     const description =
       lang === "en"
@@ -402,8 +418,8 @@ export default function App() {
 
     const keywords =
       lang === "en"
-        ? "electrician Sofia Bulgaria, electrical services Sofia, electrical installation Sofia, electrical repair Sofia, smart home Sofia, panel upgrade Sofia, electrician Bulgaria, electrical contractor Sofia"
-        : "електротехник София, електроуслуги София, електроинсталации София, ремонт на електричество София, смяна на табло София, smart home София, електротехник България";
+        ? "ElectroPerun, electrician Sofia Bulgaria, electrical services Sofia, electrical installation Sofia, electrical repair Sofia, smart home Sofia, panel upgrade Sofia, electrician Bulgaria, electrical contractor Sofia"
+        : "ElectroPerun, електротехник София, електроуслуги София, електроинсталации София, ремонт на електричество София, смяна на табло София, smart home София, електротехник България";
 
     document.title = title;
 
@@ -422,7 +438,7 @@ export default function App() {
       document.createElement("link");
 
     canonicalLink.setAttribute("rel", "canonical");
-    canonicalLink.setAttribute("href", "https://www.elektrotehnik.bg/");
+    canonicalLink.setAttribute("href", COMPANY.domain);
 
     if (!document.querySelector('link[rel="canonical"]')) {
       document.head.appendChild(canonicalLink);
@@ -596,7 +612,7 @@ export default function App() {
                 <p className="text-[#8ba0c8] leading-relaxed mb-4">
                   {t.about.bio1}
                 </p>
-                <p className="text-[#8ba0c8] leading-relaxed">{t.about.bio2}</p>
+                <p className="text-[#8ba0cfe8] leading-relaxed">{t.about.bio2}</p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   {["EN 60364", "BDS IEC", "ПБЕЗЕЛ Certified", "ISO 9001"].map(
                     (badge) => (
@@ -805,11 +821,37 @@ export default function App() {
                   </button>
 
                   <div className="bg-[#0f1830] border border-[#162040] rounded p-4 text-sm text-[#8ba0c8]">
-                    <p className="font-display text-white font-600 mb-1">
+                    <p className="font-display text-white font-600 mb-3">
                       {lang === "en" ? "Contact directly" : "Директна връзка"}
                     </p>
-                    <p>📞 +359 88 123 4567</p>
-                    <p>✉️ georgi@elektrotehnik.bg</p>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      <a
+                        href={COMPANY.whatsapp}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded bg-[#25D366] text-[#061216] px-3 py-2 text-xs font-display font-700 tracking-wider uppercase"
+                      >
+                        WhatsApp
+                      </a>
+                      <a
+                        href={COMPANY.telegram}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded bg-[#229ED9] text-white px-3 py-2 text-xs font-display font-700 tracking-wider uppercase"
+                      >
+                        Telegram
+                      </a>
+                      <a
+                        href={COMPANY.viber}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center rounded bg-[#665CAC] text-white px-3 py-2 text-xs font-display font-700 tracking-wider uppercase"
+                      >
+                        Viber
+                      </a>
+                    </div>
+                    <p>📞 {COMPANY.phoneDisplay}</p>
+                    <p>✉️ {COMPANY.email}</p>
                   </div>
                 </div>
               </form>
