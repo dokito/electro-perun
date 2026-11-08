@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import AdminPanel from "./components/AdminPanel";
 import logoSvg from "./img/ElectroPerun Logo SVG transparent.svg";
 import {
@@ -885,6 +886,7 @@ export default function App() {
           </div>
         </footer>
       </div>
+      <Analytics />
     </>
   );
 }
