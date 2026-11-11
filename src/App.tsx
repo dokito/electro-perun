@@ -6,10 +6,12 @@ import {
   DEFAULT_WORKING_TIME_SLOTS,
   getAvailableTimeSlotsForDate,
   hasRequiredBookingFields,
+  loadBlockedTimeSlots,
   type BookingFormValues,
 } from "./lib/booking";
 import {
   loadBookings,
+  loadBusinessSchedule,
   saveBooking,
   saveAttachment,
   type Booking,
@@ -242,6 +244,9 @@ export default function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [businessSchedule, setBusinessSchedule] = useState<
+    Record<string, string[]>
+  >({});
   const fileUploadRef = useRef<FileUploadRef>(null);
 
   useEffect(() => {
@@ -249,6 +254,29 @@ export default function App() {
     check();
     window.addEventListener("hashchange", check);
     return () => window.removeEventListener("hashchange", check);
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadSchedule = async () => {
+      const sharedSchedule = await loadBusinessSchedule();
+      const fallbackSchedule = loadBlockedTimeSlots();
+
+      if (mounted) {
+        setBusinessSchedule(
+          Object.keys(sharedSchedule).length > 0
+            ? sharedSchedule
+            : fallbackSchedule,
+        );
+      }
+    };
+
+    loadSchedule();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -266,7 +294,7 @@ export default function App() {
   const t = T[lang];
   const today = new Date().toISOString().split("T")[0];
   const availableTimeSlots = form.date
-    ? getAvailableTimeSlotsForDate(form.date, bookings)
+    ? getAvailableTimeSlotsForDate(form.date, bookings, businessSchedule)
     : DEFAULT_WORKING_TIME_SLOTS;
 
   useEffect(() => {
@@ -564,7 +592,9 @@ export default function App() {
             <div className="mb-14">
               <div className="w-12 h-1 bg-[#f5c518] mb-4" />
               <h2 className="font-display font-800 text-5xl text-white mb-3">
-                {lang === "en" ? "Electrical Services in Sofia" : "Електро услуги в София"}
+                {lang === "en"
+                  ? "Electrical Services in Sofia"
+                  : "Електро услуги в София"}
               </h2>
               <p className="text-[#8ba0c8] text-lg max-w-3xl">
                 {lang === "en"

@@ -33,6 +33,8 @@ import {
   type OfferItem,
   updateBooking,
   type BookingAttachment,
+  loadBusinessSchedule,
+  saveBusinessSchedule,
 } from "../lib/supabase";
 import { formatFileSize, getFileIcon } from "../lib/fileUpload";
 import { deleteFileFromStorage } from "../lib/storageUtils";
@@ -106,13 +108,17 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
 
     const initData = async () => {
       setLoading(true);
-      const [bookingsData, offersData] = await Promise.all([
+      const [bookingsData, offersData, sharedSchedule] = await Promise.all([
         loadBookings(),
         loadOffers(),
+        loadBusinessSchedule(),
       ]);
       setBookings(bookingsData);
       setOffers(offersData);
-      setSchedule(loadBlockedTimeSlots());
+      const localSchedule = loadBlockedTimeSlots();
+      setSchedule(
+        Object.keys(sharedSchedule).length > 0 ? sharedSchedule : localSchedule,
+      );
       setLoading(false);
     };
 
@@ -149,6 +155,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
       }
 
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }
@@ -166,6 +173,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
       }
 
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }
@@ -176,6 +184,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
     setSchedule((current) => {
       const updated = setDateRangeBlocked(current, startDate, endDate);
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }
@@ -186,6 +195,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
     setSchedule((current) => {
       const updated = copyBlockedDayToDate(current, sourceDate, targetDate);
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }
@@ -195,6 +205,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
       const updated = { ...current };
       delete updated[date];
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }
@@ -203,6 +214,7 @@ export default function AdminPanel({ onExit }: { onExit: () => void }) {
     setSchedule((current) => {
       const updated = {};
       saveBlockedTimeSlots(updated);
+      void saveBusinessSchedule(updated);
       return updated;
     });
   }

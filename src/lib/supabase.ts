@@ -472,3 +472,55 @@ export async function createSignedUrl(
     return null;
   }
 }
+
+/* ─── Business Schedule ───────────────────────────────────── */
+
+export interface BusinessSchedule {
+  id: string;
+  schedule_data: Record<string, string[]>;
+  updated_at?: string;
+}
+
+export async function loadBusinessSchedule(): Promise<
+  Record<string, string[]>
+> {
+  try {
+    const { data, error } = await supabase
+      .from("business_schedule")
+      .select("schedule_data")
+      .maybeSingle();
+
+    if (error && error.code !== "PGRST116") throw error;
+
+    if (!data?.schedule_data || typeof data.schedule_data !== "object") {
+      return {};
+    }
+
+    return data.schedule_data as Record<string, string[]>;
+  } catch (err) {
+    console.error("Error loading business schedule:", err);
+    return {};
+  }
+}
+
+export async function saveBusinessSchedule(
+  schedule: Record<string, string[]>,
+): Promise<boolean> {
+  try {
+    const payload = {
+      id: "default",
+      schedule_data: schedule,
+      updated_at: new Date().toISOString(),
+    };
+
+    const { error } = await supabase
+      .from("business_schedule")
+      .upsert(payload, { onConflict: "id" });
+
+    if (error) throw error;
+    return true;
+  } catch (err) {
+    console.error("Error saving business schedule:", err);
+    return false;
+  }
+}
